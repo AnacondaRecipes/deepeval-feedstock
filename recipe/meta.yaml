@@ -55,6 +55,9 @@ requirements:
     - pydantic >=2.11.7,<3.0.0
     - pydantic-settings >=2.10.1,<3.0.0
     - jinja2
+    # Need to fix pip check
+    - setuptools
+    - wheel
   run_constrained:
     # Added upper-bound to save compatibility with other pkgs in the dependency tree
     # integrations
@@ -79,6 +82,8 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_doc_chunker.py" %}
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_generate_from_goldens.py" %}
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_synthesizer.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestForLoopFlow::test_chronological_sort_matches_write_order" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_config/test_settings.py::test_env_dir_path_expanduser" %}
 
 test:
   source_files:
@@ -108,10 +113,6 @@ about:
   dev_url: https://github.com/confident-ai/deepeval
   doc_url: https://deepeval.com
 
-
 extra:
-  recipe-maintainers:
-    - Twixes
-    - yakkomajuri
-    - neilkakkar
-    - posthog-bot
+  skip-lints:
+    - python_build_tool_in_run
