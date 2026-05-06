@@ -20,7 +20,6 @@ build:
   skip: true  # [py<39]
 
 requirements:
-  requirements:
   host:
     - python
     - pip
@@ -59,13 +58,13 @@ requirements:
     - setuptools
     - wheel
   run_constrained:
-    # Added upper-bound to save compatibility with other pkgs in the dependency tree
     # integrations
     - crewai  # [py>=310 and py<314]
     - pydantic-ai  # [py>=310 and py<314]
     - llama-index >=0.14.4,<0.15.0
     - openai-agents >=0.3.3,<0.4.0
     # langchain
+    # Added upper-bound to save compatibility with other pkgs in the dependency tree
     - langchain >=1.2.4,<2  # [py>=310]
     - langchain-openai >=1.1.7,<2  # [py>=310]
     - langgraph >=1.0.7,<2
