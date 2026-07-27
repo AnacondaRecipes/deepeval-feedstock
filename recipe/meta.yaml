@@ -119,5 +119,5 @@ about:
   doc_url: https://deepeval.com
 
 extra:
-  skip-lints:
-    - python_build_tool_in_run
+  recipe-maintainers:
+    - penguineip
