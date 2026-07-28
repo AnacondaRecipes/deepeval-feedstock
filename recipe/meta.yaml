@@ -1,16 +1,30 @@
 {% set name = "deepeval" %}
-{% set version = "3.9.9" %}
+{% set version = "4.1.4" %}
+{% set deselect_tests = " --deselect=gh_src/tests/test_core/test_tracing/test_integration" %}
+{% set deselect_tests = 'deselect_tests + " --deselect=gh_src/tests/test_core/test_datasets/test_dataset.py::TestSaveAndLoad"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_end_to_end/test_configs.py::TestEvalsIterator"' %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_end_to_end/test_skip_reset.py" %}
+{% set deselect_tests = 'deselect_tests + " --deselect=gh_src/tests/test_core/test_models/test_embedding_models/test_ollama_embedding_model.py::test_ollama_embedding_model_accepts_legacy_host_keyword_and_maps_to_base_url"' %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_simulator/test_conversation_simulator.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_context_generator.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_doc_chunker.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_generate_from_goldens.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_synthesizer.py" %}
+{% set deselect_tests = 'deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestForLoopFlow::test_chronological_sort_matches_write_order"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=gh_src/tests/test_core/test_config/test_settings.py::test_env_dir_path_expanduser"' %}
 
+# >   raise self._make_status_error_from_response(err.response) from None
+# E   openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: test-ope***-key. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 8a0d93f4789c861b42e4a66834d5f5bd0c5f305e81e11c0705834235bc8cac8e
+    sha256: cd8a393cb11cb6254b0e1da57be78bc5f927117f5edb9da938a63375dbc85967
     patches:
-    - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
-  - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+      - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
+      - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
     sha256: ad2b16b74b212ae14dc7fdf9cdce2ffb8802d61a8f5104c1ba0b45c3cae48b37
     folder: gh_src
 
@@ -23,9 +37,7 @@ requirements:
   host:
     - python
     - pip
-    - poetry-core 
-    - setuptools
-    - wheel
+    - poetry-core
   run:
     - python
     - requests >=2.31.0,<3.0.0
@@ -57,6 +69,8 @@ requirements:
     # Need to fix pip check
     - setuptools
     - wheel
+    - pytest-repeat
+    - questionary >=2.0.0,<3.0.0
   run_constrained:
     # integrations
     - crewai  # [py>=310 and py<314]
@@ -68,21 +82,8 @@ requirements:
     - langchain >=1.2.4,<2  # [py>=310]
     - langchain-openai >=1.1.7,<2  # [py>=310]
     - langgraph >=1.0.7,<2
-
-# >   raise self._make_status_error_from_response(err.response) from None
-# E   openai.AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: test-ope***-key. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
-{% set deselect_tests = " --deselect=gh_src/tests/test_core/test_tracing/test_integration" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_datasets/test_dataset.py::TestSaveAndLoad" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_end_to_end/test_configs.py::TestEvalsIterator" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_end_to_end/test_skip_reset.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_models/test_embedding_models/test_ollama_embedding_model.py::test_ollama_embedding_model_accepts_legacy_host_keyword_and_maps_to_base_url" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_simulator/test_conversation_simulator.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_context_generator.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_doc_chunker.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_generate_from_goldens.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_synthesizer/test_synthesizer.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestForLoopFlow::test_chronological_sort_matches_write_order" %}
-{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_config/test_settings.py::test_env_dir_path_expanduser" %}
+    - textual >=0.80,<2.0
+    - pyperclip >=1.8.0,<2.0.0
 
 test:
   source_files:
