@@ -55,10 +55,6 @@ requirements:
     - pyperclip >=1.8.0,<2.0.0
     - questionary >=2.0.0,<3.0.0
     - jinja2
-    # Need to fix pip check
-    - setuptools
-    - wheel
-    - pytest-repeat
   run_constrained:
     # integrations
     - crewai  # [py>=310 and py<314]
