@@ -97,6 +97,10 @@ test:
   requires:
     - pip
     - transformers
+    # Need to fix pip check
+    - setuptools
+    - wheel
+    - pytest-repeat
 
 about:
   home: https://github.com/confident-ai/deepeval
