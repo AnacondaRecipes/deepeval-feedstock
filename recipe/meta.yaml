@@ -7,11 +7,11 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 03c5206a4258c6831affdb92aee1a4b131d37daf92df8af122c745f482d85268
+    sha256: cd8a393cb11cb6254b0e1da57be78bc5f927117f5edb9da938a63375dbc85967
     patches:
       - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
   - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 2e94dc8b4b9bdb6a89d6ab3e2bdafce09fb9a2de4afb4449ffd5388dd6ceaf4d
+    sha256: 0b84fcff949805bf077f588b2dbdc83476971654c2e2f11494771296356c07db
     folder: gh_src
 
 build:
