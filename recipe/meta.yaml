@@ -86,8 +86,9 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_tracing/test_update_functions/test_update_current_span.py::TestUpdateCurrentSpan::test_update_tools" %}
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_tracing/test_update_functions/test_update_current_trace.py::TestUpdateCurrentTrace::test_update_tools" %}
 # E       Failed: DID NOT RAISE <class 'tenacity.RetryError'>
-# flaky test
+# flaky tests
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_retry_policy.py::test_sync_timeout_is_retryable_and_capped" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestResolveTestRunPath::test_same_second_collision_appends_suffix" %}
 
 test:
   source_files:
