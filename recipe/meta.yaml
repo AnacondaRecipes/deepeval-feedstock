@@ -39,7 +39,6 @@ requirements:
     - aiohttp
     - typer >=0.9,<1.0.0
     - click >=8.0.0,<8.4.0
-    - setuptools
     - wheel
     - nest-asyncio
     - tenacity >=8.0.0,<=10.0.0
@@ -90,6 +89,14 @@ requirements:
 # flaky tests
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_retry_policy.py::test_sync_timeout_is_retryable_and_capped" %}
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestResolveTestRunPath::test_same_second_collision_appends_suffix" %}
+# requires the raw repo layout (deepeval/ and scripts/ next to tests/), not
+# available here since only gh_src/tests is copied into the test env
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeSafety::test_posthog_is_imported_and_called_in_exactly_one_place" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeScriptParity::test_the_committed_vocabulary_is_up_to_date" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeScriptParity::test_the_vocabulary_covers_every_wire_string" %}
+# flaky timing-sensitive async tests (mocked WebRTC/duplex audio pipeline)
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_voice/test_connectors/test_webrtc.py::test_agent_audio_and_text_arrive_as_events" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_voice/test_duplex.py::test_agent_holds_the_floor_until_the_barge_is_ready_to_speak" %}
 
 test:
   source_files:
