@@ -1,5 +1,5 @@
 {% set name = "deepeval" %}
-{% set version = "4.1.4" %}
+{% set version = "4.2.3" %}
 
 package:
   name: {{ name }}
@@ -7,11 +7,11 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: cd8a393cb11cb6254b0e1da57be78bc5f927117f5edb9da938a63375dbc85967
+    sha256: 4dddde7ca9984a619b327ce08c5bdf9ffbe2e3d584650b1c7d944c5a9cb92b22
     patches:
       - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
-  - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 0b84fcff949805bf077f588b2dbdc83476971654c2e2f11494771296356c07db
+  - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/python-v{{ version }}.tar.gz
+    sha256: ab2c705048327fa1fed8e63b81381189acb3f8f83ff89687daca66a7ea6be252
     folder: gh_src
 
 build:
@@ -33,13 +33,14 @@ requirements:
     - pytest-rerunfailures
     - pytest-asyncio
     - tabulate >=0.9.0,<0.10.0
-    - sentry-sdk
     - rich >=13.6.0,<15.0.0
     - portalocker
     - openai
     - aiohttp
     - typer >=0.9,<1.0.0
     - click >=8.0.0,<8.4.0
+    - setuptools
+    - wheel
     - nest-asyncio
     - tenacity >=8.0.0,<=10.0.0
     - opentelemetry-api >=1.24.0,<2.0.0
