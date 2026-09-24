@@ -1,5 +1,5 @@
 {% set name = "deepeval" %}
-{% set version = "4.2.3" %}
+{% set version = "4.2.6" %}
 
 package:
   name: {{ name }}
@@ -7,11 +7,11 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 4dddde7ca9984a619b327ce08c5bdf9ffbe2e3d584650b1c7d944c5a9cb92b22
+    sha256: 12e56ae25f19d0e3674c27ae0189d2d8d6fcbd250e2a781168f5046c528c608a
     patches:
       - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
   - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/python-v{{ version }}.tar.gz
-    sha256: ab2c705048327fa1fed8e63b81381189acb3f8f83ff89687daca66a7ea6be252
+    sha256: 5a2f1687c07060d5dec956a432edc516c933d1315788e7256c8a276f36db0b0d
     folder: gh_src
 
 build:
@@ -39,7 +39,6 @@ requirements:
     - aiohttp
     - typer >=0.9,<1.0.0
     - click >=8.0.0,<8.4.0
-    - wheel
     - nest-asyncio
     - tenacity >=8.0.0,<=10.0.0
     - opentelemetry-api >=1.24.0,<2.0.0
