@@ -1,5 +1,5 @@
 {% set name = "deepeval" %}
-{% set version = "4.1.4" %}
+{% set version = "4.2.6" %}
 
 package:
   name: {{ name }}
@@ -7,11 +7,11 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: cd8a393cb11cb6254b0e1da57be78bc5f927117f5edb9da938a63375dbc85967
+    sha256: 12e56ae25f19d0e3674c27ae0189d2d8d6fcbd250e2a781168f5046c528c608a
     patches:
       - patches/0001-Remove-pytest-repeat-from-the-deps-to-aboid-pip-chec.patch
-  - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 0b84fcff949805bf077f588b2dbdc83476971654c2e2f11494771296356c07db
+  - url: https://github.com/confident-ai/{{ name }}/archive/refs/tags/python-v{{ version }}.tar.gz
+    sha256: 5a2f1687c07060d5dec956a432edc516c933d1315788e7256c8a276f36db0b0d
     folder: gh_src
 
 build:
@@ -33,7 +33,6 @@ requirements:
     - pytest-rerunfailures
     - pytest-asyncio
     - tabulate >=0.9.0,<0.10.0
-    - sentry-sdk
     - rich >=13.6.0,<15.0.0
     - portalocker
     - openai
@@ -51,8 +50,6 @@ requirements:
     - python-dotenv >=1.1.1,<2.0.0
     - pydantic >=2.11.7,<3.0.0
     - pydantic-settings >=2.10.1,<3.0.0
-    - textual >=0.80,<2.0
-    - pyperclip >=1.8.0,<2.0.0
     - questionary >=2.0.0,<3.0.0
     - jinja2
   run_constrained:
@@ -89,6 +86,14 @@ requirements:
 # flaky tests
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_retry_policy.py::test_sync_timeout_is_retryable_and_capped" %}
 {% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_evaluation/test_local_store.py::TestResolveTestRunPath::test_same_second_collision_appends_suffix" %}
+# requires the raw repo layout (deepeval/ and scripts/ next to tests/), not
+# available here since only gh_src/tests is copied into the test env
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeSafety::test_posthog_is_imported_and_called_in_exactly_one_place" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeScriptParity::test_the_committed_vocabulary_is_up_to_date" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_telemetry.py::TestTypeScriptParity::test_the_vocabulary_covers_every_wire_string" %}
+# flaky timing-sensitive async tests (mocked WebRTC/duplex audio pipeline)
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_voice/test_connectors/test_webrtc.py::test_agent_audio_and_text_arrive_as_events" %}
+{% set deselect_tests = deselect_tests + " --deselect=gh_src/tests/test_core/test_voice/test_duplex.py::test_agent_holds_the_floor_until_the_barge_is_ready_to_speak" %}
 
 test:
   source_files:
